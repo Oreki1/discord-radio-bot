@@ -208,6 +208,8 @@ client.on('interactionCreate', async (interaction) => {
           reconnectTimer = null;
         }
       },
+      getIsPlaying: () => isPlaying,
+getConnection: () => voiceConnection,
       setIsPlaying: (val) => { isPlaying = val; },
       RADIO_URL,
       CHANNEL_ID,
