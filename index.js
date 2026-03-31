@@ -163,7 +163,7 @@ function scheduleReconnect(delayMs = 15_000) {
 }
 
 // ─── Бот бэлэн болоход ────────────────────────────────────────────────────────
-client.once('ready', async () => {
+client.once('clientReady', async () => {
   console.log(`\n✅ Бот нэвтэрлээ: ${client.user.tag}`);
   console.log(`📻 Радио URL    : ${RADIO_URL}`);
   console.log(`🔊 Channel ID   : ${CHANNEL_ID}\n`);
