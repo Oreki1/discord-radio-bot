@@ -44,11 +44,18 @@ for (const file of commandFiles) {
 }
 
 // ─── Аудио тоглуулах ─────────────────────────────────────────────────────────
-function playRadio() {
+async function playRadio() {
   if (!voiceConnection || !audioPlayer) return;
 
   try {
-    const resource = createAudioResource(RADIO_URL, {
+    const ytdl = require('ytdl-core');
+    const stream = ytdl(RADIO_URL, {
+      filter: 'audioonly',
+      quality: 'highestaudio',
+      highWaterMark: 1 << 25,
+    });
+
+    const resource = createAudioResource(stream, {
       inputType: StreamType.Arbitrary,
       inlineVolume: true,
     });
@@ -56,10 +63,10 @@ function playRadio() {
     resource.volume?.setVolume(1);
     audioPlayer.play(resource);
     isPlaying = true;
-    console.log(`[Radio] Тоглуулж байна: ${RADIO_URL}`);
+    console.log(`[Radio] YouTube тоглуулж байна: ${RADIO_URL}`);
   } catch (err) {
-    console.error('[Radio] Тоглуулахад алдаа гарлаа:', err.message);
-    scheduleReconnect();
+    console.error('[Radio] Алдаа:', err.message);
+    setTimeout(() => playRadio(), 5000);
   }
 }
 
